@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
         <meta charset="UTF-8"/>
-        <title>Formulaire permettant de saisir des valeurs</title>
+        <title>Formulaire de connexion</title>
         <link rel="stylesheet" href="assets/css/custom.css"/>
 </head>
 <body>
-<h1>Formulaire d'inscription (exemple)</h1>
+<h1>Formulaire de connexion</h1>
 
-<form action="contact.php" method="post">
+<form action="correction.php" method="post">
 
                 <!--   CHAMPS mail-->
         <div>
@@ -21,13 +21,13 @@
         <div>
                 <label class="lbl" for="password">Password:</label>
                 <input type="password" id="password" name="password"
-                       minlength="8" required
+                       minlength="8"
                        placeholder="8 characters minimum" />
         </div>
 
         <!--   Bouton submit-->
         <div>
-                <input id="inscrire" name="inscrire" type="submit" value="Soumettre"/>
+                <input id="connexion" name="connexion" type="submit" value="connexion"/>
         </div>
 </form>
 </body>

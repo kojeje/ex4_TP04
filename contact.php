@@ -11,65 +11,82 @@
 <h1>Traitement de l'inscription (exemple)</h1>
 
 <?php
-    /* (1) Connexion au serveur MySQL (les "???" sont à compléter)
-              * Paramètre(s) de la fonction : nom/adresse du serveur,
-              * identifiant, mot de passe
-              */
-    $connexionBdd = mysqli_connect("localhost", "root", "root");
-
-    //   Si tout les champs sont vides : afficher message
+//Si tel ou tel champ sont vide afficher message désiré
+        //si tout est vide
     if (empty($_POST['email']) && empty($_POST['password'])) {
-        $message = "Erreur : les champs du formulaire sont vides.";
-        echo $message;
 
-        /* Optionnel : permet d'éviter les problèmes d'affichage de
-                       * certains caractères accentués
-                       */
-        mysqli_set_charset($connexionBdd, "utf8");
+    $message = "Erreur : les champs du formulaire sont vides.";
 
-        /* (2) Sélection de la base (le "???" est à compléter)
-           * Paramètre(s) de la fonction : nom de la base, connexion
-           */
-        $selectionBdd = mysqli_select_db($connexionBdd, "bibliotheque");
-
-    } elseif (empty($_POST['email'])) {
-        $message = "Erreur : le champ 'email' du formulaire est vide.";
-        echo $message;
-
-    } elseif (empty($_POST['password'])) {
-        $message = "Erreur : le champ 'password' du formulaire est vide.";
-        echo $message;
-
-    }
+}  //si "email" est vide
+        elseif (empty($_POST['email'])) {
+    $message = "Erreur : le champ 'email' du formulaire est vide.";
+}  //si "password" est vide
+        elseif (empty($_POST['password'])) {
+    $message = "Erreur : le champ 'password' du formulaire est vide.";
+}  //si tout est renseigné {
+        //variable $email est le résultat du champ renseigné "email"
+        $email = $_POST['email'];
+        //variable $password est le résultat du champ renseigné "email"
+        $password = $_POST['password'];
+        //variable $name est le résultat du champ renseigné "email"
+        $name = $_POST['name'];
+        //variable $message contient le message de bienvenue
+        $message = "Bienvenue $name";
 
 
-    else {
-        $nom = $_POST['nom'];
-        $adresse_email = $_POST['email'];
-        $sujet = $_POST['sujet'];
-        $msg = $_POST['message'];
-        $message= "
-            <h1>Bravo! <br>
-            Votre message est parti.... Vous êtes vraiment une lumière !
-            <br></h1>
 
-                <h4>Vos nom et prénom</h4>
-                <p>$nom</p>
+ 	/* (1) Connexion au serveur MySQL (les "???" sont à compléter)
+	* Paramètre(s) de la fonction : login/adresse du serveur,
+	* email, mot de passe
+	*/
+	 $connexionBdd = mysqli_connect("localhost", "root", "root");
 
-
-                <h4>Votre adresse email</h4>
-                <p>$adresse_email</p>
+	 /* Optionnel : permet d'éviter les problèmes d'affichage de
+	* certains caractères accentués
+	*/
+	 mysqli_set_charset($connexionBdd, "utf8");
 
 
-                <h4>sujet</h4>
-                <p>$sujet</p>
+	 /* (2) Sélection de la base (le "???" est à compléter)
+	* Paramètre(s) de la fonction : login de la base, connexion
+	*/
+	 $selectionBdd = mysqli_select_db($connexionBdd, "test");
 
-                <h4>Message</h4>
-                <p>$msg</p>";
+	 //Contenu de la requete mysql
+	 $requete = "SELECT email, password, login FROM user_list WHERE email = '$email'";
+	 //Contenu de la variable $resultat:
+    // Envoi de la requête de puis le script actuel vers la base * de données,
+    // et récupération du résultat de la requête
+	 $resultat = mysqli_query($connexionBdd, $requete);
+	 //Contenu de la variable $name
 
 
-        echo $message;
-    }
+	 
+while ($ligne_resultat = mysqli_fetch_assoc($resultat))
+{
+        $login = $ligne_resultat['login'];
+
+            if ($email != $ligne_resultat['email']) {
+                $message =  "Erreur d'email ou de mot de passe";
+                //header('Location: http://localhost:8888/contact_form.php');
+  //exit();
+
+            } elseif($password != $ligne_resultat['password']){
+                $message = "Erreur d'email ou de mot de passe";
+                //header('Location: http://localhost:8888/contact_form.php');
+  //exit();
+
+            }  else {
+                $message = "Bienvenue $login !";
+            }
+            echo $message;
+        }
+
+
+        mysqli_close($connexionBdd);
+
+
+
 
 ?>
 
